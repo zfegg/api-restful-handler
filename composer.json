@@ -1,0 +1,24 @@
+{
+  "name": "zfegg/api-restful-handler",
+  "description": "Restful api handler for PSR-15.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Moln Xie",
+      "email": "moln.xie@gmail.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Zfegg\\ApiRestfulHandler\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ZfeggTest\\ApiRestfulHandler\\": "test/"
+    }
+  }
+}
