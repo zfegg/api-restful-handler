@@ -20,5 +20,10 @@
     "psr-4": {
       "ZfeggTest\\ApiRestfulHandler\\": "test/"
     }
+  },
+  "extra": {
+    "zf": {
+      "config-provider": "Zfegg\\ApiRestfulHandler\\ConfigProvider"
+    }
   }
 }

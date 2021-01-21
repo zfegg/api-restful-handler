@@ -112,6 +112,10 @@ class RestHandler implements RequestHandlerInterface
             );
         }
 
+        if ($contentType = $request->getHeaderLine('Content-Type')) {
+            $context['format'] = $this->formatMatcher->getMimeTypeFormat($contentType);
+        }
+
         $action = $actions[$type][$method];
 
         $result = call_user_func_array([$this->resource, $action[0]], $action[1]);

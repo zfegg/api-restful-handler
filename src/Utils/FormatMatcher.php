@@ -50,6 +50,11 @@ class FormatMatcher
 
         $mimeType = $accept->getType();
 
+        return $this->getMimeTypeFormat($mimeType);
+    }
+
+    public function getMimeTypeFormat(string $mimeType): ?array
+    {
         $canonicalMimeType = null;
         $pos = strpos($mimeType, ';');
         if (false !== $pos) {
