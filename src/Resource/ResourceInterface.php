@@ -32,10 +32,10 @@ interface ResourceInterface
      *
      * @param  array $data
      *
-     * @return array|object
+     * @return iterable
      * @throws ApiProblem
      */
-    public function replaceList($data, array $context = []);
+    public function replaceList($data, array $context = []): iterable;
 
     /**
      * Partial update of an existing record
@@ -52,8 +52,6 @@ interface ResourceInterface
      * Delete an existing record
      *
      * @param  string|int $id
-     *
-     * @return bool
      */
     public function delete($id, array $context = []): void;
 
@@ -61,16 +59,14 @@ interface ResourceInterface
      * Delete an existing collection of records
      *
      * @param  null|array $data
-     *
-     * @return bool
      */
-    public function deleteList($data = null, array $context = []): bool;
+    public function deleteList($data = null, array $context = []): void;
 
     /**
      * Fetch an existing record
      *
      * @param  string|int $id
-     * @return false|array|\IteratorAggregate|void
+     * @return array|object|void
      */
     public function get($id, array $context = []);
 
@@ -79,12 +75,12 @@ interface ResourceInterface
      *
      * @throws ApiProblem
      */
-    public function getList(array $context = []);
+    public function getList(array $context = []): iterable;
 
     /**
      * @param $data
      *
-     * @return ApiProblem
+     * @throws ApiProblem
      */
-    public function patchList($data, array $context = []);
+    public function patchList($data, array $context = []): iterable;
 }

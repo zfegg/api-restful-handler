@@ -8,12 +8,7 @@ use Zfegg\ApiRestfulHandler\Exception\ApiProblem;
 trait ResourceNotAllowedTrait
 {
     /**
-     * Create a record in the resource
-     *
-     * @param  array|object $data
-     *
-     * @return array|object
-     * @throws ApiProblem
+     * @inheritDoc
      */
     public function create($data, array $context = [])
     {
@@ -21,13 +16,7 @@ trait ResourceNotAllowedTrait
     }
 
     /**
-     * Update (replace) an existing record
-     *
-     * @param  string|int   $id
-     * @param  array|object $data
-     *
-     * @return array|object
-     * @throws ApiProblem
+     * @inheritDoc
      */
     public function update($id, $data, array $context = [])
     {
@@ -35,26 +24,15 @@ trait ResourceNotAllowedTrait
     }
 
     /**
-     * Update (replace) an existing collection of records
-     *
-     * @param  array $data
-     *
-     * @return array|object
-     * @throws ApiProblem
+     * @inheritDoc
      */
-    public function replaceList($data, array $context = [])
+    public function replaceList($data, array $context = []): iterable
     {
         throw new ApiProblem(405, 'Method Not Allowed');
     }
 
     /**
-     * Partial update of an existing record
-     *
-     * @param  string|int   $id
-     * @param  array|object $data
-     *
-     * @return array|object
-     * @throws ApiProblem
+     * @inheritDoc
      */
     public function patch($id, $data, array $context = [])
     {
@@ -62,12 +40,7 @@ trait ResourceNotAllowedTrait
     }
 
     /**
-     * Delete an existing record
-     *
-     * @param  string|int $id
-     *
-     * @return bool
-     * @throws ApiProblem
+     * @inheritDoc
      */
     public function delete($id, array $context = []): void
     {
@@ -75,25 +48,15 @@ trait ResourceNotAllowedTrait
     }
 
     /**
-     * Delete an existing collection of records
-     *
-     * @param  null|array $data
-     *
-     * @return bool
-     * @throws ApiProblem
+     * @inheritDoc
      */
-    public function deleteList($data = null, array $context = []): bool
+    public function deleteList($data = null, array $context = []): void
     {
         throw new ApiProblem(405, 'Method Not Allowed');
     }
 
     /**
-     * Fetch an existing record
-     *
-     * @param  string|int $id
-     *
-     * @return false|array|object
-     * @throws ApiProblem
+     * @inheritDoc
      */
     public function get($id, array $context = [])
     {
@@ -101,21 +64,17 @@ trait ResourceNotAllowedTrait
     }
 
     /**
-     * Fetch a collection of records
-     *
-     * @throws ApiProblem
+     * @inheritDoc
      */
-    public function getList(array $context = [])
+    public function getList(array $context = []): iterable
     {
         throw new ApiProblem(405, 'Method Not Allowed');
     }
 
     /**
-     * @param $data
-     *
-     * @throws ApiProblem
+     * @inheritDoc
      */
-    public function patchList($data, array $context = [])
+    public function patchList($data, array $context = []): iterable
     {
         throw new ApiProblem(405, 'Method Not Allowed');
     }
