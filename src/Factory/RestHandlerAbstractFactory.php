@@ -37,6 +37,7 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
             $container->get(SerializerInterface::class),
             $container->get($options['resource']),
             $container->get(ResponseFactoryInterface::class),
+            $options['serialize_context'] ?? []
         );
     }
 }

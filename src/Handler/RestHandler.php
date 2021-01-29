@@ -46,18 +46,33 @@ class RestHandler implements RequestHandlerInterface
      * @var ResponseFactoryInterface
      */
     private ResponseFactoryInterface $responseFactory;
+    private array $serializeContext;
 
     public function __construct(
         FormatMatcher $formatMatcher,
         SerializerInterface $serializer,
         ResourceInterface $resource,
-        ResponseFactoryInterface $responseFactory
+        ResponseFactoryInterface $responseFactory,
+        array $serializeContext = []
     )
     {
         $this->formatMatcher = $formatMatcher;
         $this->serializer = $serializer;
         $this->resource = $resource;
         $this->responseFactory = $responseFactory;
+        $this->serializeContext = $serializeContext;
+    }
+
+    private function initContext(ServerRequestInterface $request): array
+    {
+        $context = $request->getAttributes() + $this->serializeContext;
+        $context['query'] = $request->getQueryParams();
+        $context['api_resource'] = true;
+        if ($contentType = $request->getHeaderLine('Content-Type')) {
+            $context['format'] = $this->formatMatcher->getMimeTypeFormat($contentType);
+        }
+
+        return $context;
     }
 
     /**
@@ -73,8 +88,7 @@ class RestHandler implements RequestHandlerInterface
         $method = $request->getMethod();
         $id = $params[self::IDENTIFIER_NAME] ?? null;
         $data = $request->getParsedBody();
-        $context = $request->getAttributes();
-        $context['query'] = $request->getQueryParams();
+        $context = $this->initContext($request);
 
         $actions = [
             'collection' => [
@@ -112,13 +126,9 @@ class RestHandler implements RequestHandlerInterface
             );
         }
 
-        if ($contentType = $request->getHeaderLine('Content-Type')) {
-            $context['format'] = $this->formatMatcher->getMimeTypeFormat($contentType);
-        }
-
         $action = $actions[$type][$method];
-
         $result = call_user_func_array([$this->resource, $action[0]], $action[1]);
+
 
         return $this->createResponse($request, $action, $result, $format, $context)
             ->withHeader('Content-Type', $contentType);

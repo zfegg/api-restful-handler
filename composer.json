@@ -10,6 +10,7 @@
     }
   ],
   "require": {
+    "php": "^7.4 || ^8.0",
     "psr/http-server-handler": "^1.0",
     "willdurand/negotiation": "^2.3 || ^3.0",
     "symfony/serializer": "^5.2"
