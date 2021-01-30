@@ -69,7 +69,7 @@ class RestHandler implements RequestHandlerInterface
         $context['query'] = $request->getQueryParams();
         $context['api_resource'] = true;
         if ($contentType = $request->getHeaderLine('Content-Type')) {
-            $context['format'] = $this->formatMatcher->getMimeTypeFormat($contentType);
+            [$context['format']] = $this->formatMatcher->getMimeTypeFormat($contentType);
         }
 
         return $context;
