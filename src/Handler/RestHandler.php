@@ -67,7 +67,7 @@ class RestHandler implements RequestHandlerInterface
     {
         $context = $request->getAttributes() + $this->serializeContext;
         $context['query'] = $request->getQueryParams();
-        $context['api_resource'] = true;
+
         if ($contentType = $request->getHeaderLine('Content-Type')) {
             [$context['format']] = $this->formatMatcher->getMimeTypeFormat($contentType);
         }
@@ -95,7 +95,6 @@ class RestHandler implements RequestHandlerInterface
                 'DELETE' => ['deleteList', ['data' => $data]],
                 'GET' => ['getList', [$context]],
                 'PATCH' => ['patchList', ['data' => $data]],
-                'POST' => ['create', ['data' => $data, $context]],
                 'PUT' => ['replaceList', ['data' => $data]],
             ],
 
@@ -104,9 +103,14 @@ class RestHandler implements RequestHandlerInterface
                 'GET' => ['get', [$id, $context]],
                 'PATCH' => ['patch', [$id, 'data' => $data, $context]],
                 'PUT' => ['update', [$id, 'data' => $data, $context]],
+                'POST' => ['create', ['data' => $data, $context]],
             ],
         ];
-        $type = $id === null ? 'collection' : 'entity';
+
+        $type = $id === null
+            ? $method == 'POST' ? 'entity' : 'collection'
+            : 'entity';
+        $context['api_resource'] = $type;
 
         if (! isset($actions[$type][$method])) {
             throw new RequestException(
@@ -151,7 +155,7 @@ class RestHandler implements RequestHandlerInterface
 
         $response = $this->responseFactory->createResponse(self::ACTION_TO_CODE[$action[0]] ?? 200);
 
-        if ($result) {
+        if ($result !== null) {
             $response->getBody()->write($this->serializer->serialize($result, $format, $context));
         }
 
