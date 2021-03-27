@@ -32,8 +32,10 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
     ) {
         $options = $container->get('config')['rest'][$requestedName];
 
+        $negotiator = $container->has(Negotiator::class) ? $container->get(Negotiator::class) : new Negotiator();
+
         return new RestHandler(
-            new FormatMatcher($container->get(Negotiator::class), $options['formats'] ?? self::DEFAULT_FORMATS),
+            new FormatMatcher($negotiator, $options['formats'] ?? self::DEFAULT_FORMATS),
             $container->get(SerializerInterface::class),
             $container->get($options['resource']),
             $container->get(ResponseFactoryInterface::class),
