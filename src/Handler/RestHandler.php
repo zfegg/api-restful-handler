@@ -28,23 +28,12 @@ class RestHandler implements RequestHandlerInterface
         'delete' => StatusCodeInterface::STATUS_NO_CONTENT,
     ];
 
-    /**
-     * @var ResourceInterface
-     */
     private $resource;
 
-    /**
-     * @var SerializerInterface
-     */
     private SerializerInterface $serializer;
-    /**
-     * @var FormatMatcher
-     */
+
     private FormatMatcher $formatMatcher;
 
-    /**
-     * @var ResponseFactoryInterface
-     */
     private ResponseFactoryInterface $responseFactory;
     private array $serializeContext;
 
@@ -131,13 +120,37 @@ class RestHandler implements RequestHandlerInterface
         }
 
         $action = $actions[$type][$method];
-        $result = call_user_func_array([$this->resource, $action[0]], $action[1]);
 
+        if (in_array($action[0], ['get', 'patch', 'update', 'delete'])) {
+            if (!$entity = $this->resource->get($id, $context)) {
+                throw new RequestException(
+                    'Entity not found.',
+                    404
+                );
+            }
+            $context['entity'] = $entity;
+        } else if ($parentResource = $this->resource->getParent()) {
+            $parentContext = $context;
+            $parentContext['api_resource'] = 'entity';
+            $parentEntity = $parentResource->get($params[$this->resource->getParentContextKey()], $parentContext);
+            if (!$parentEntity) {
+                throw new RequestException(
+                    'Entity not found.',
+                    404
+                );
+            }
+            $context['parent_entity'] = $parentEntity;
+        }
+
+        if ($action[0] == 'get') {
+            $result = $entity;
+        } else {
+            $result = call_user_func_array([$this->resource, $action[0]], $action[1]);
+        }
 
         return $this->createResponse($request, $action, $result, $format, $context)
             ->withHeader('Content-Type', $contentType);
     }
-
 
     private function createResponse(
         ServerRequestInterface $request,
@@ -146,12 +159,6 @@ class RestHandler implements RequestHandlerInterface
         string $format,
         array $context): ResponseInterface
     {
-        if ($action == 'get' && ! $result) {
-            throw new RequestException(
-                'Entity not found.',
-                404
-            );
-        }
 
         $response = $this->responseFactory->createResponse(self::ACTION_TO_CODE[$action[0]] ?? 200);
 

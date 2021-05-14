@@ -6,6 +6,7 @@ use Zfegg\ApiRestfulHandler\Exception\ApiProblem;
 
 interface ResourceInterface
 {
+
     /**
      * Create a record in the resource
      *
@@ -83,4 +84,13 @@ interface ResourceInterface
      * @throws ApiProblem
      */
     public function patchList($data, array $context = []): iterable;
+
+    /**
+     * Parent resource
+     *
+     * @return ResourceInterface|null
+     */
+    public function getParent(): ?ResourceInterface;
+
+    public function getParentContextKey(): ?string;
 }
