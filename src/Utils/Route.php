@@ -4,7 +4,7 @@
 namespace Zfegg\ApiRestfulHandler\Utils;
 
 
-use Zfegg\MezzioHelper\Group;
+use Zfegg\MezzioHelper\Route\Group;
 
 class Route
 {
