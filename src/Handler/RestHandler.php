@@ -145,7 +145,7 @@ class RestHandler implements RequestHandlerInterface
         if ($action[0] == 'get') {
             $result = $entity;
         } else {
-            $result = call_user_func_array([$this->resource, $action[0]], $action[1]);
+            $result = call_user_func_array([$this->resource, $action[0]], array_values($action[1]));
         }
 
         return $this->createResponse($request, $action, $result, $format, $context)
