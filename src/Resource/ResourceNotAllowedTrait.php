@@ -78,4 +78,14 @@ trait ResourceNotAllowedTrait
     {
         throw new ApiProblem(405, 'Method Not Allowed');
     }
+
+    public function getParent(): ?ResourceInterface
+    {
+        return null;
+    }
+
+    public function getParentContextKey(): ?string
+    {
+        return null;
+    }
 }
