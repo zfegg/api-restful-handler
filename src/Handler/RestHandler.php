@@ -71,11 +71,8 @@ class RestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var RouteResult $routeResult */
-        $routeResult = $request->getAttribute(RouteResult::class);
-        $params = $routeResult->getMatchedParams();
+        $id = $request->getAttribute(self::IDENTIFIER_NAME);
         $method = $request->getMethod();
-        $id = $params[self::IDENTIFIER_NAME] ?? null;
         $data = $request->getParsedBody();
         $context = $this->initContext($request);
 
@@ -132,7 +129,7 @@ class RestHandler implements RequestHandlerInterface
         } else if ($parentResource = $this->resource->getParent()) {
             $parentContext = $context;
             $parentContext['api_resource'] = 'entity';
-            $parentEntity = $parentResource->get($params[$this->resource->getParentContextKey()], $parentContext);
+            $parentEntity = $parentResource->get($context[$this->resource->getParentContextKey()], $parentContext);
             if (!$parentEntity) {
                 throw new RequestException(
                     'Entity not found.',
