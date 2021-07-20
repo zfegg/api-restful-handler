@@ -3,7 +3,6 @@
 namespace Zfegg\ApiRestfulHandler\Handler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,7 +27,7 @@ class RestHandler implements RequestHandlerInterface
         'delete' => StatusCodeInterface::STATUS_NO_CONTENT,
     ];
 
-    private $resource;
+    private ResourceInterface $resource;
 
     private SerializerInterface $serializer;
 

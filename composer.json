@@ -31,5 +31,9 @@
     "laminas": {
       "config-provider": "Zfegg\\ApiRestfulHandler\\ConfigProvider"
     }
+  },
+  "require-dev": {
+    "mezzio/mezzio-problem-details": "^1.4",
+    "laminas/laminas-servicemanager": "^3.6"
   }
 }
