@@ -17,7 +17,7 @@ class ApiProblem extends RequestException implements ProblemDetailsExceptionInte
         array $additional = [],
         ?\Throwable $previous = null
     ) {
-        parent::__construct($status, $detail, $previous);
+        parent::__construct($detail, $status, $previous);
         $this->status = $status;
         $this->detail = $detail;
         $this->title = $title;
