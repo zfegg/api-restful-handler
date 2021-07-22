@@ -78,17 +78,17 @@ class RestHandler implements RequestHandlerInterface
         $actions = [
             'collection' => [
                 'DELETE' => ['deleteList', ['data' => $data]],
-                'GET' => ['getList', [$context]],
+                'GET' => ['getList', []],
                 'PATCH' => ['patchList', ['data' => $data]],
                 'PUT' => ['replaceList', ['data' => $data]],
             ],
 
             'entity' => [
-                'DELETE' => ['delete', [$id, $context]],
-                'GET' => ['get', [$id, $context]],
-                'PATCH' => ['patch', [$id, 'data' => $data, $context]],
-                'PUT' => ['update', [$id, 'data' => $data, $context]],
-                'POST' => ['create', ['data' => $data, $context]],
+                'DELETE' => ['delete', [$id,]],
+                'GET' => ['get', [$id,]],
+                'PATCH' => ['patch', [$id, 'data' => $data,]],
+                'PUT' => ['update', [$id, 'data' => $data,]],
+                'POST' => ['create', ['data' => $data,]],
             ],
         ];
 
@@ -141,6 +141,7 @@ class RestHandler implements RequestHandlerInterface
         if ($action[0] == 'get') {
             $result = $entity;
         } else {
+            $action[1][] = $context;
             $result = call_user_func_array([$this->resource, $action[0]], array_values($action[1]));
         }
 
