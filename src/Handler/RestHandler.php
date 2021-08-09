@@ -53,7 +53,7 @@ class RestHandler implements RequestHandlerInterface
 
     private function initContext(ServerRequestInterface $request): array
     {
-        $context = $request->getAttributes() + $this->serializeContext;
+        $context = $request->getAttributes();
         $context['query'] = $request->getQueryParams();
 
         if ($contentType = $request->getHeaderLine('Content-Type')) {
@@ -64,9 +64,7 @@ class RestHandler implements RequestHandlerInterface
     }
 
     /**
-     * @param ServerRequestInterface $request
-     *
-     * @return ResponseInterface
+     * @inheritDoc
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -160,7 +158,11 @@ class RestHandler implements RequestHandlerInterface
         $response = $this->responseFactory->createResponse(self::ACTION_TO_CODE[$action[0]] ?? 200);
 
         if ($result !== null) {
-            $response->getBody()->write($this->serializer->serialize($result, $format, $context));
+            $response->getBody()->write($this->serializer->serialize(
+                $result,
+                $format,
+                $context + $this->serializeContext
+            ));
         }
 
         return $response;
