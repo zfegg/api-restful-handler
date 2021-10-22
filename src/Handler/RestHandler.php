@@ -56,9 +56,7 @@ class RestHandler implements RequestHandlerInterface
         $context = $request->getAttributes();
         $context['query'] = $request->getQueryParams();
 
-        if ($contentType = $request->getHeaderLine('Content-Type')) {
-            [$context['format']] = $this->formatMatcher->getMimeTypeFormat($contentType);
-        }
+        [$context['format'], $context['contentType']] = $this->formatMatcher->getFormat($request) ?: [null, null];
 
         return $context;
     }
@@ -102,7 +100,7 @@ class RestHandler implements RequestHandlerInterface
             );
         }
 
-        [$format, $contentType] = $this->formatMatcher->getFormat($request) ?: [null, null];
+        $format = $context['format'];
         if (! $format) {
             throw new RequestException(
                 sprintf(
@@ -143,12 +141,11 @@ class RestHandler implements RequestHandlerInterface
             $result = call_user_func_array([$this->resource, $action[0]], array_values($action[1]));
         }
 
-        return $this->createResponse($request, $action, $result, $format, $context)
-            ->withHeader('Content-Type', $contentType);
+        return $this->createResponse($action, $result, $format, $context)
+            ->withHeader('Content-Type', $context['contentType']);
     }
 
     private function createResponse(
-        ServerRequestInterface $request,
         array $action,
         $result,
         string $format,
@@ -158,11 +155,12 @@ class RestHandler implements RequestHandlerInterface
         $response = $this->responseFactory->createResponse(self::ACTION_TO_CODE[$action[0]] ?? 200);
 
         if ($result !== null) {
-            $response->getBody()->write($this->serializer->serialize(
+            $data = $this->serializer->serialize(
                 $result,
                 $format,
                 $context + $this->serializeContext
-            ));
+            );
+            $response->getBody()->write($data);
         }
 
         return $response;

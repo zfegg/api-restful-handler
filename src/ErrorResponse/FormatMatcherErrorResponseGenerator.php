@@ -39,9 +39,7 @@ class FormatMatcherErrorResponseGenerator
 
         [$format, ] = $this->formatMatcher->getFormat($request) ?: [null, null];
 
-        $generator = isset($this->responseGenerators[$format])
-            ? $this->responseGenerators[$format]
-            : $this->responseGenerators['default'];
+        $generator = $this->responseGenerators[$format] ?? $this->responseGenerators['default'];
 
         return $generator($e, $request, $response);
     }

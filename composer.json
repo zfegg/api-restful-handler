@@ -34,6 +34,7 @@
   },
   "require-dev": {
     "mezzio/mezzio-problem-details": "^1.4",
-    "laminas/laminas-servicemanager": "^3.6"
+    "laminas/laminas-servicemanager": "^3.10",
+    "laminas/laminas-diactoros": "^2.8"
   }
 }

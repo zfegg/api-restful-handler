@@ -5,6 +5,7 @@ namespace Zfegg\ApiRestfulHandler;
 
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Zfegg\ApiRestfulHandler\Middleware\ResourceFindMiddleware;
 
 class ConfigProvider
 {
@@ -15,6 +16,9 @@ class ConfigProvider
             'dependencies'       => [
                 'abstract_factories' => [
                     Factory\RestHandlerAbstractFactory::class,
+                ],
+                'factories' => [
+                    ResourceFindMiddleware::class => Factory\ResourceFindMiddlewareFactory::class,
                 ],
                 'aliases' => [
                     SerializerInterface::class => Serializer::class,
