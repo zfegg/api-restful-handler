@@ -51,7 +51,10 @@ trait RestfulApiTestTrait
             ->assertJsonStructure(['data']);
     }
 
-    public function apiCreate(array $body, int $status = 201, string $primaryKey = 'id'): int
+    /**
+     * @return int|string
+     */
+    public function apiCreate(array $body, int $status = 201, string $primaryKey = 'id')
     {
         $response = $this->postJson($this->path, $body);
         $response->assertStatus($status);
@@ -59,12 +62,18 @@ trait RestfulApiTestTrait
         return $response->json()[$primaryKey];
     }
 
-    public function apiUpdate(int $id, array $params): void
+    /**
+     * @param string|int $id
+     */
+    public function apiUpdate($id, array $params): void
     {
         $this->putJson($this->path . '/' . $id, $params)->assertOk();
     }
 
-    public function apiPatch(int $id, array $params): void
+    /**
+     * @param string|int $id
+     */
+    public function apiPatch($id, array $params): void
     {
         $this->patchJson($this->path . '/' . $id, $params)->assertOk();
     }
