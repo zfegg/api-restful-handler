@@ -3,8 +3,7 @@
 
 namespace Zfegg\ApiRestfulHandler\Utils;
 
-
-use Zfegg\MezzioHelper\Route\Group;
+use Zfegg\PsrMvc\Routing\Group;
 
 class Route
 {

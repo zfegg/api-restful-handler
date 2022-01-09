@@ -5,21 +5,17 @@ namespace Zfegg\ApiRestfulHandler\ErrorResponse;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zfegg\ApiRestfulHandler\Utils\FormatMatcher;
 use Throwable;
+use Zfegg\PsrMvc\FormatMatcher;
 
 class FormatMatcherErrorResponseGenerator
 {
 
     private array $responseGenerators;
-    /**
-     * @var FormatMatcher
-     */
     private FormatMatcher $formatMatcher;
 
     /**
      * ErrorResponseStack constructor.
-     * @param FormatMatcher $formatMatcher
      * @param array<string, callable> $responseGenerators
      */
     public function __construct(FormatMatcher $formatMatcher, array $responseGenerators)
@@ -37,7 +33,7 @@ class FormatMatcherErrorResponseGenerator
         ResponseInterface $response
     ) : ResponseInterface {
 
-        [$format, ] = $this->formatMatcher->getFormat($request) ?: [null, null];
+        $format = $this->formatMatcher->getBestFormat($request) ?: $this->formatMatcher->getDefaultFormat();
 
         $generator = $this->responseGenerators[$format] ?? $this->responseGenerators['default'];
 

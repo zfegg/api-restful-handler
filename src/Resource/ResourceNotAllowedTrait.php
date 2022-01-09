@@ -3,7 +3,7 @@
 
 namespace Zfegg\ApiRestfulHandler\Resource;
 
-use Zfegg\ApiRestfulHandler\Exception\ApiProblem;
+use Zfegg\PsrMvc\Exception\HttpException;
 
 trait ResourceNotAllowedTrait
 {
@@ -12,7 +12,7 @@ trait ResourceNotAllowedTrait
      */
     public function create($data, array $context = [])
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -20,7 +20,7 @@ trait ResourceNotAllowedTrait
      */
     public function update($id, $data, array $context = [])
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -28,7 +28,7 @@ trait ResourceNotAllowedTrait
      */
     public function replaceList($data, array $context = []): iterable
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -36,7 +36,7 @@ trait ResourceNotAllowedTrait
      */
     public function patch($id, $data, array $context = [])
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -44,7 +44,7 @@ trait ResourceNotAllowedTrait
      */
     public function delete($id, array $context = []): void
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -52,7 +52,7 @@ trait ResourceNotAllowedTrait
      */
     public function deleteList($data = null, array $context = []): void
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -60,7 +60,7 @@ trait ResourceNotAllowedTrait
      */
     public function get($id, array $context = [])
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -68,7 +68,7 @@ trait ResourceNotAllowedTrait
      */
     public function getList(array $context = []): iterable
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     /**
@@ -76,7 +76,7 @@ trait ResourceNotAllowedTrait
      */
     public function patchList($data, array $context = []): iterable
     {
-        throw new ApiProblem(405, 'Method Not Allowed');
+        throw new HttpException(405, 'Method Not Allowed');
     }
 
     public function getParent(): ?ResourceInterface

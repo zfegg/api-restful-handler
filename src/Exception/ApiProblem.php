@@ -4,8 +4,9 @@ namespace Zfegg\ApiRestfulHandler\Exception;
 
 use Mezzio\ProblemDetails\Exception\CommonProblemDetailsExceptionTrait;
 use Mezzio\ProblemDetails\Exception\ProblemDetailsExceptionInterface;
+use Zfegg\PsrMvc\Exception\HttpException;
 
-class ApiProblem extends RequestException implements ProblemDetailsExceptionInterface, RequestExceptionInterface
+class ApiProblem extends HttpException implements ProblemDetailsExceptionInterface
 {
     use CommonProblemDetailsExceptionTrait;
 
@@ -17,7 +18,7 @@ class ApiProblem extends RequestException implements ProblemDetailsExceptionInte
         array $additional = [],
         ?\Throwable $previous = null
     ) {
-        parent::__construct($detail, $status, $previous);
+        parent::__construct($status, $detail, $previous);
         $this->status = $status;
         $this->detail = $detail;
         $this->title = $title;

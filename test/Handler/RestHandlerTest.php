@@ -4,15 +4,14 @@ namespace ZfeggTest\ApiRestfulHandler\Handler;
 
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
-use Negotiation\Negotiator;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Zfegg\ApiRestfulHandler\Handler\RestHandler;
-use PHPUnit\Framework\TestCase;
 use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
-use Zfegg\ApiRestfulHandler\Utils\FormatMatcher;
+use Zfegg\PsrMvc\Exception\HttpException;
+use Zfegg\PsrMvc\FormatMatcher;
+use ZfeggTest\ApiRestfulHandler\AbstractTestCase;
 
-class RestHandlerTest extends TestCase
+class RestHandlerTest extends AbstractTestCase
 {
 
     public function testHandle()
@@ -25,7 +24,7 @@ class RestHandlerTest extends TestCase
         $responseFactory = new ResponseFactory();
 
         $handler = new RestHandler(
-            new FormatMatcher(new Negotiator(), ['json', 'csv']),
+            new FormatMatcher(['json', 'csv']),
             $serializer,
             $resource,
             $responseFactory,
@@ -37,5 +36,40 @@ class RestHandlerTest extends TestCase
 
         $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
         $this->assertEquals('{}', (string) $response->getBody());
+    }
+
+    public function rest()
+    {
+        return [
+            ['GET', '/tests',],
+            ['DELETE', '/tests',],
+            ['POST', '/tests',],
+            ['PUT', '/tests',],
+            ['PATCH', '/tests',],
+            ['DELETE', '/tests',],
+            ['PUT', '/tests/123', ['id' => 123]],
+            ['PATCH', '/tests/123', ['id' => 123]],
+            ['DELETE', '/tests/123', ['id' => 123]],
+//            ['GET', '/tests/123', ['id' => 123]],
+        ];
+    }
+
+    /**
+     * @dataProvider rest
+     */
+    public function testCurd(string $method, string $path, array $attrs = [])
+    {
+        /** @var RestHandler $handler */
+        $handler = $this->container->get('demo.rest');
+
+        $request = (new ServerRequestFactory)->createServerRequest($method, $path);
+
+        foreach ($attrs as $attr => $val) {
+            $request = $request->withAttribute($attr, $val);
+        }
+
+        $this->expectException(HttpException::class);
+        $this->expectExceptionCode(405);
+        $handler->handle($request);
     }
 }

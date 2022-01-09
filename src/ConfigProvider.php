@@ -5,7 +5,8 @@ namespace Zfegg\ApiRestfulHandler;
 
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-use Zfegg\ApiRestfulHandler\Middleware\ResourceFindMiddleware;
+use Zfegg\ApiRestfulHandler\Attribute\FromResource;
+use Zfegg\PsrMvc\ParamResolver\ParamResolverManager;
 
 class ConfigProvider
 {
@@ -18,12 +19,16 @@ class ConfigProvider
                     Factory\RestHandlerAbstractFactory::class,
                 ],
                 'factories' => [
-                    ResourceFindMiddleware::class => Factory\ResourceFindMiddlewareFactory::class,
                 ],
                 'aliases' => [
                     SerializerInterface::class => Serializer::class,
                 ]
             ],
+            ParamResolverManager::class => [
+                'factories' => [
+                    FromResource::class => Factory\ResourceResolverFactory::class,
+                ]
+            ]
         ];
     }
 }

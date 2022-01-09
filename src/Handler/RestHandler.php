@@ -7,10 +7,12 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zfegg\ApiRestfulHandler\Exception\RequestException;
-use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
-use Zfegg\ApiRestfulHandler\Utils\FormatMatcher;
 use Symfony\Component\Serializer\SerializerInterface;
+use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
+use Zfegg\PsrMvc\Exception\HttpException;
+use Zfegg\PsrMvc\Exception\NotAcceptableHttpException;
+use Zfegg\PsrMvc\Exception\NotFoundHttpException;
+use Zfegg\PsrMvc\FormatMatcher;
 
 class RestHandler implements RequestHandlerInterface
 {
@@ -55,8 +57,10 @@ class RestHandler implements RequestHandlerInterface
     {
         $context = $request->getAttributes();
         $context['query'] = $request->getQueryParams();
-
-        [$context['format'], $context['contentType']] = $this->formatMatcher->getFormat($request) ?: [null, null];
+        $context['format'] = $request->getAttribute('format')
+            ?: $this->formatMatcher->getBestFormat($request)
+            ?: $this->formatMatcher->getDefaultFormat();
+        $context['contentType'] = $this->formatMatcher->getFormat($context['format'])['mime-type'][0];
 
         return $context;
     }
@@ -94,20 +98,19 @@ class RestHandler implements RequestHandlerInterface
         $context['api_resource'] = $type;
 
         if (! isset($actions[$type][$method])) {
-            throw new RequestException(
+            throw new HttpException(
+                405,
                 'Method not allowed',
-                405
             );
         }
 
         $format = $context['format'];
         if (! $format) {
-            throw new RequestException(
+            throw new NotAcceptableHttpException(
                 sprintf(
                     'Requested format "%s" is not supported.',
                     $request->getHeaderLine('accept'),
                 ),
-                406
             );
         }
 
@@ -115,10 +118,7 @@ class RestHandler implements RequestHandlerInterface
 
         if (in_array($action[0], ['get', 'patch', 'update', 'delete'])) {
             if (!$entity = $this->resource->get($id, $context)) {
-                throw new RequestException(
-                    'Entity not found.',
-                    404
-                );
+                throw new NotFoundHttpException('Entity not found.');
             }
             $context['entity'] = $entity;
         } else if ($parentResource = $this->resource->getParent()) {
@@ -126,10 +126,7 @@ class RestHandler implements RequestHandlerInterface
             $parentContext['api_resource'] = 'entity';
             $parentEntity = $parentResource->get($context[$this->resource->getParentContextKey()], $parentContext);
             if (!$parentEntity) {
-                throw new RequestException(
-                    'Entity not found.',
-                    404
-                );
+                throw new NotFoundHttpException('Entity not found.');
             }
             $context['parent_entity'] = $parentEntity;
         }

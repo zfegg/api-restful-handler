@@ -4,10 +4,9 @@
 namespace Zfegg\ApiRestfulHandler\Factory;
 
 
-use Negotiation\Negotiator;
 use Psr\Container\ContainerInterface;
 use Zfegg\ApiRestfulHandler\ErrorResponse\FormatMatcherErrorResponseGenerator;
-use Zfegg\ApiRestfulHandler\Utils\FormatMatcher;
+use Zfegg\PsrMvc\FormatMatcher;
 
 class FormatMatcherErrorResponseGeneratorFactory
 {
@@ -17,7 +16,6 @@ class FormatMatcherErrorResponseGeneratorFactory
         $config = $container->get('config')[FormatMatcherErrorResponseGenerator::class] ?? [];
 
         $formatMatcher = new FormatMatcher(
-            $container->get(Negotiator::class),
             $config['error_formats'],
         );
 
