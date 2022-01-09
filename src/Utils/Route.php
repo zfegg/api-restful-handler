@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler\Utils;
 
@@ -14,7 +15,10 @@ class Route
             string $resource,
             array $options = [],
             array $methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
-        ) use ($group, $restName) {
+        ) use (
+            $group,
+            $restName
+) {
             return $group->route(
                 "/{$resource}[/{id}]",
                 $restName ? sprintf($restName, $resource) : ($group->getName() . $resource),

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler\Factory;
 
@@ -13,6 +14,9 @@ use Zfegg\PsrMvc\FormatMatcher;
 class RestHandlerAbstractFactory implements AbstractFactoryInterface
 {
 
+    /**
+     * @inheritdoc
+     */
     public function canCreate(ContainerInterface $container, $requestedName): bool
     {
         $config = $container->get('config');
@@ -20,11 +24,14 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
         return isset($config['rest'][$requestedName]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function __invoke(
         ContainerInterface $container,
         $requestedName,
         ?array $options = null
-    ) {
+    ): RestHandler {
         $config = $container->get('config')['rest'][$requestedName];
 
         if (isset($config['formats'])) {

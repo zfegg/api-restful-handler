@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ZfeggTest\ApiRestfulHandler\Utils;
 
 use Zfegg\ApiRestfulHandler\Utils\Route;
@@ -9,9 +11,9 @@ use Zfegg\PsrMvc\Routing\Group;
 class RouteTest extends TestCase
 {
 
-    public function testRestRoute()
+    public function testRestRoute(): void
     {
-        $group = new Group('/api', name: 'api.');
+        $group = new Group('/api', [], 'api.');
         $rest = Route::restRoute($group);
         $rest('tests');
 

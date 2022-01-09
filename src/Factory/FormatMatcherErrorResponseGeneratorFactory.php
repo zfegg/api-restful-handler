@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler\Factory;
-
 
 use Psr\Container\ContainerInterface;
 use Zfegg\ApiRestfulHandler\ErrorResponse\FormatMatcherErrorResponseGenerator;
@@ -11,7 +11,7 @@ use Zfegg\PsrMvc\FormatMatcher;
 class FormatMatcherErrorResponseGeneratorFactory
 {
 
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): FormatMatcherErrorResponseGenerator
     {
         $config = $container->get('config')[FormatMatcherErrorResponseGenerator::class] ?? [];
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ZfeggTest\ApiRestfulHandler\ParamResolver;
 
 use Zfegg\ApiRestfulHandler\Attribute\FromResource;
@@ -10,7 +12,7 @@ use ZfeggTest\ApiRestfulHandler\Resource\DemoResource;
 
 class ResourceResolverTest extends AbstractTestCase
 {
-    public function testResolve()
+    public function testResolve(): void
     {
         /** @var CallbackHandlerFactory $factory */
         $factory = $this->container->get(CallbackHandlerFactory::class);
@@ -24,8 +26,7 @@ class ResourceResolverTest extends AbstractTestCase
     public function demo(
         #[FromResource(DemoResource::class)]
         array $entity
-    )
-    {
+    ): void {
         $this->assertEquals(['id' => 123], $entity);
     }
 }

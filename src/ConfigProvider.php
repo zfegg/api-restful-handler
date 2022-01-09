@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler;
 
@@ -11,7 +12,7 @@ use Zfegg\PsrMvc\ParamResolver\ParamResolverManager;
 class ConfigProvider
 {
 
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             'dependencies'       => [

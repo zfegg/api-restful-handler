@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Zfegg\ApiRestfulHandler\Resource;
 
-use Zfegg\ApiRestfulHandler\Exception\ApiProblem;
 
 interface ResourceInterface
 {
@@ -13,7 +14,7 @@ interface ResourceInterface
      * @param array|object $data
      * @param array $context
      * @return array|object
-     * @throws ApiProblem
+     * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
     public function create($data, array $context = []);
 
@@ -24,19 +25,15 @@ interface ResourceInterface
      * @param  array|object $data
      *
      * @return array|object
-     * @throws ApiProblem
+     * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
     public function update($id, $data, array $context = []);
 
     /**
      * Update (replace) an existing collection of records
-     *
-     * @param  array $data
-     *
-     * @return iterable
-     * @throws ApiProblem
+     * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
-    public function replaceList($data, array $context = []): iterable;
+    public function replaceList(iterable $data, array $context = []): iterable;
 
     /**
      * Partial update of an existing record
@@ -45,7 +42,7 @@ interface ResourceInterface
      * @param  array|object $data
      *
      * @return array|object
-     * @throws ApiProblem
+     * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
     public function patch($id, $data, array $context = []);
 
@@ -58,10 +55,8 @@ interface ResourceInterface
 
     /**
      * Delete an existing collection of records
-     *
-     * @param  null|array $data
      */
-    public function deleteList($data = null, array $context = []): void;
+    public function deleteList(?iterable $data = null, array $context = []): void;
 
     /**
      * Fetch an existing record
@@ -74,21 +69,19 @@ interface ResourceInterface
     /**
      * Fetch a collection of records
      *
-     * @throws ApiProblem
+     * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
     public function getList(array $context = []): iterable;
 
     /**
-     * @param $data
      *
-     * @throws ApiProblem
+     * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
-    public function patchList($data, array $context = []): iterable;
+    public function patchList(iterable $data, array $context = []): iterable;
 
     /**
      * Parent resource
      *
-     * @return ResourceInterface|null
      */
     public function getParent(): ?ResourceInterface;
 

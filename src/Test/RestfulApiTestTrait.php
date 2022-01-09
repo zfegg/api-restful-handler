@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler\Test;
-
-use Zfegg\ExpressiveTest\AbstractActionTestCase;
 
 /**
  * Trait RestfulApiTestTrait
  *
- * @mixin AbstractActionTestCase
+ * @mixin \Zfegg\ExpressiveTest\AbstractActionTestCase
  * @property string $path
  */
 trait RestfulApiTestTrait
@@ -63,7 +62,7 @@ trait RestfulApiTestTrait
     }
 
     /**
-     * @param string|int $id
+     * @param int|string $id
      */
     public function apiUpdate($id, array $params): void
     {
@@ -71,7 +70,7 @@ trait RestfulApiTestTrait
     }
 
     /**
-     * @param string|int $id
+     * @param int|string $id
      */
     public function apiPatch($id, array $params): void
     {

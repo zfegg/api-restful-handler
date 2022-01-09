@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ZfeggTest\ApiRestfulHandler;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class DemoTest extends TestCase
 {
 
-    public function testMime()
+    public function testMime(): void
     {
 //        $mimes = new \Mimey\MimeTypes;
 //

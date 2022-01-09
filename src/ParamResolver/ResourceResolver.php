@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Zfegg\ApiRestfulHandler\ParamResolver;
 
 use Psr\Container\ContainerInterface;
@@ -9,10 +11,12 @@ use Zfegg\PsrMvc\ParamResolver\ParamResolverInterface;
 
 class ResourceResolver implements ParamResolverInterface
 {
+    private ContainerInterface $container;
+
     public function __construct(
-        private ContainerInterface $container
-    )
-    {
+        ContainerInterface $container
+    ) {
+        $this->container = $container;
     }
 
     public function resolve(object $attr, ReflectionParameter $parameter): callable

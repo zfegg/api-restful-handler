@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler\ErrorResponse;
 
@@ -31,7 +32,7 @@ class FormatMatcherErrorResponseGenerator
         Throwable $e,
         ServerRequestInterface $request,
         ResponseInterface $response
-    ) : ResponseInterface {
+    ): ResponseInterface {
 
         $format = $this->formatMatcher->getBestFormat($request) ?: $this->formatMatcher->getDefaultFormat();
 

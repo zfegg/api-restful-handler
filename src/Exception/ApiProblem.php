@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Zfegg\ApiRestfulHandler\Exception;
 
 use Mezzio\ProblemDetails\Exception\CommonProblemDetailsExceptionTrait;

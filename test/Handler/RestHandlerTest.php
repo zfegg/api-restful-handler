@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ZfeggTest\ApiRestfulHandler\Handler;
 
 use Laminas\Diactoros\ResponseFactory;
@@ -14,7 +16,7 @@ use ZfeggTest\ApiRestfulHandler\AbstractTestCase;
 class RestHandlerTest extends AbstractTestCase
 {
 
-    public function testHandle()
+    public function testHandle(): void
     {
         $serializer = $this->createMock(SerializerInterface::class);
         $serializer->method('serialize')->willReturn('{}');
@@ -38,7 +40,7 @@ class RestHandlerTest extends AbstractTestCase
         $this->assertEquals('{}', (string) $response->getBody());
     }
 
-    public function rest()
+    public function rest(): array
     {
         return [
             ['GET', '/tests',],
@@ -57,7 +59,7 @@ class RestHandlerTest extends AbstractTestCase
     /**
      * @dataProvider rest
      */
-    public function testCurd(string $method, string $path, array $attrs = [])
+    public function testCurd(string $method, string $path, array $attrs = []): void
     {
         /** @var RestHandler $handler */
         $handler = $this->container->get('demo.rest');

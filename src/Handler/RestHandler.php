@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Zfegg\ApiRestfulHandler\Handler;
 
 use Fig\Http\Message\StatusCodeInterface;
@@ -20,7 +22,6 @@ class RestHandler implements RequestHandlerInterface
     /**
      * Request 中唯ID标识名称
      *
-     * @var string
      */
     const IDENTIFIER_NAME = 'id';
 
@@ -44,8 +45,7 @@ class RestHandler implements RequestHandlerInterface
         ResourceInterface $resource,
         ResponseFactoryInterface $responseFactory,
         array $serializeContext = []
-    )
-    {
+    ) {
         $this->formatMatcher = $formatMatcher;
         $this->serializer = $serializer;
         $this->resource = $resource;
@@ -117,15 +117,15 @@ class RestHandler implements RequestHandlerInterface
         $action = $actions[$type][$method];
 
         if (in_array($action[0], ['get', 'patch', 'update', 'delete'])) {
-            if (!$entity = $this->resource->get($id, $context)) {
+            if (! $entity = $this->resource->get($id, $context)) {
                 throw new NotFoundHttpException('Entity not found.');
             }
             $context['entity'] = $entity;
-        } else if ($parentResource = $this->resource->getParent()) {
+        } elseif ($parentResource = $this->resource->getParent()) {
             $parentContext = $context;
             $parentContext['api_resource'] = 'entity';
             $parentEntity = $parentResource->get($context[$this->resource->getParentContextKey()], $parentContext);
-            if (!$parentEntity) {
+            if (! $parentEntity) {
                 throw new NotFoundHttpException('Entity not found.');
             }
             $context['parent_entity'] = $parentEntity;
@@ -142,12 +142,15 @@ class RestHandler implements RequestHandlerInterface
             ->withHeader('Content-Type', $context['contentType']);
     }
 
+    /**
+     * @param mixed  $result
+     */
     private function createResponse(
         array $action,
         $result,
         string $format,
-        array $context): ResponseInterface
-    {
+        array $context
+    ): ResponseInterface {
 
         $response = $this->responseFactory->createResponse(self::ACTION_TO_CODE[$action[0]] ?? 200);
 

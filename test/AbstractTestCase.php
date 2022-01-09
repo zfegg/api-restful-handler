@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ZfeggTest\ApiRestfulHandler;
 
 use Laminas\ServiceManager\ServiceManager;
@@ -24,7 +26,7 @@ abstract class AbstractTestCase extends TestCase
         $config = [
             'dependencies' => [
                 'services' => [
-                    SerializerInterface::class =>new Serializer(
+                    SerializerInterface::class => new Serializer(
                         [
                         ],
                         [

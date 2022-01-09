@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Zfegg\ApiRestfulHandler\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
@@ -24,7 +26,7 @@ class ResourceFindMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!$entity = $this->resource->get($request->getAttribute(RestHandler::IDENTIFIER_NAME))) {
+        if (! $entity = $this->resource->get($request->getAttribute(RestHandler::IDENTIFIER_NAME))) {
             throw new NotFoundHttpException('Entity not found');
         }
 
