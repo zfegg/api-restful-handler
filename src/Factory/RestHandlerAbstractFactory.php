@@ -14,6 +14,16 @@ use Zfegg\PsrMvc\FormatMatcher;
 class RestHandlerAbstractFactory implements AbstractFactoryInterface
 {
 
+    private static array $defaultFormats = [
+        'json',
+        'csv',
+    ];
+
+    public static function setDefaultFormats(array $formats)
+    {
+        self::$defaultFormats = $formats;
+    }
+
     /**
      * @inheritdoc
      */
@@ -37,7 +47,7 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
         if (isset($config['formats'])) {
             $formatMatcher = new FormatMatcher($config['formats']);
         } else {
-            $formatMatcher = $container->get(FormatMatcher::class);
+            $formatMatcher = new FormatMatcher(self::$defaultFormats);
         }
 
         return new RestHandler(
