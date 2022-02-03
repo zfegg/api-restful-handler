@@ -11,23 +11,16 @@ interface ResourceInterface
     /**
      * Create a record in the resource
      *
-     * @param array|object $data
-     * @param array $context
-     * @return array|object
      * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
-    public function create($data, array $context = []);
+    public function create(object|array $data, array $context = []): object|array;
 
     /**
      * Update (replace) an existing record
      *
-     * @param  string|int $id
-     * @param  array|object $data
-     *
-     * @return array|object
      * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
-    public function update($id, $data, array $context = []);
+    public function update(int|string $id, object|array $data, array $context = []): object|array;
 
     /**
      * Update (replace) an existing collection of records
@@ -38,20 +31,14 @@ interface ResourceInterface
     /**
      * Partial update of an existing record
      *
-     * @param  string|int $id
-     * @param  array|object $data
-     *
-     * @return array|object
      * @throws \Zfegg\PsrMvc\Exception\HttpExceptionInterface
      */
-    public function patch($id, $data, array $context = []);
+    public function patch(int|string $id, object|array $data, array $context = []): object|array;
 
     /**
      * Delete an existing record
-     *
-     * @param  string|int $id
      */
-    public function delete($id, array $context = []): void;
+    public function delete(int|string $id, array $context = []): void;
 
     /**
      * Delete an existing collection of records
@@ -60,11 +47,8 @@ interface ResourceInterface
 
     /**
      * Fetch an existing record
-     *
-     * @param  string|int $id
-     * @return array|object|void
      */
-    public function get($id, array $context = []);
+    public function get(int|string $id, array $context = []): array|object|null;
 
     /**
      * Fetch a collection of records

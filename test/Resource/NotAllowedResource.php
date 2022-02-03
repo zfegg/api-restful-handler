@@ -15,7 +15,7 @@ class NotAllowedResource implements ResourceInterface
     /**
      * @inheritdoc
      */
-    public function get($id, array $context = [])
+    public function get(int|string $id, array $context = []): array|object|null
     {
         return ['id' => $id];
     }

@@ -11,7 +11,7 @@ trait ResourceNotAllowedTrait
     /**
      * @inheritDoc
      */
-    public function create($data, array $context = [])
+    public function create(object|array $data, array $context = []): object|array
     {
         throw new HttpException(405, 'Method Not Allowed');
     }
@@ -19,7 +19,7 @@ trait ResourceNotAllowedTrait
     /**
      * @inheritDoc
      */
-    public function update($id, $data, array $context = [])
+    public function update(int|string $id, object|array $data, array $context = []): object|array
     {
         throw new HttpException(405, 'Method Not Allowed');
     }
@@ -35,7 +35,7 @@ trait ResourceNotAllowedTrait
     /**
      * @inheritDoc
      */
-    public function patch($id, $data, array $context = [])
+    public function patch(int|string $id, object|array $data, array $context = []): object|array
     {
         throw new HttpException(405, 'Method Not Allowed');
     }
@@ -43,7 +43,7 @@ trait ResourceNotAllowedTrait
     /**
      * @inheritDoc
      */
-    public function delete($id, array $context = []): void
+    public function delete(int|string $id, array $context = []): void
     {
         throw new HttpException(405, 'Method Not Allowed');
     }
@@ -51,7 +51,7 @@ trait ResourceNotAllowedTrait
     /**
      * @inheritDoc
      */
-    public function deleteList($data = null, array $context = []): void
+    public function deleteList(?iterable $data = null, array $context = []): void
     {
         throw new HttpException(405, 'Method Not Allowed');
     }
@@ -59,7 +59,7 @@ trait ResourceNotAllowedTrait
     /**
      * @inheritDoc
      */
-    public function get($id, array $context = [])
+    public function get(int|string $id, array $context = []): array|object|null
     {
         throw new HttpException(405, 'Method Not Allowed');
     }

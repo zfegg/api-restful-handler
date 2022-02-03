@@ -18,10 +18,8 @@ use Zfegg\PsrMvc\FormatMatcher;
 
 class RestHandler implements RequestHandlerInterface
 {
-
     /**
      * Request 中唯ID标识名称
-     *
      */
     const IDENTIFIER_NAME = 'id';
 
@@ -30,27 +28,13 @@ class RestHandler implements RequestHandlerInterface
         'delete' => StatusCodeInterface::STATUS_NO_CONTENT,
     ];
 
-    private ResourceInterface $resource;
-
-    private SerializerInterface $serializer;
-
-    private FormatMatcher $formatMatcher;
-
-    private ResponseFactoryInterface $responseFactory;
-    private array $serializeContext;
-
     public function __construct(
-        FormatMatcher $formatMatcher,
-        SerializerInterface $serializer,
-        ResourceInterface $resource,
-        ResponseFactoryInterface $responseFactory,
-        array $serializeContext = []
+        private FormatMatcher $formatMatcher,
+        private SerializerInterface $serializer,
+        private ResourceInterface $resource,
+        private ResponseFactoryInterface $responseFactory,
+        private array $serializationContext = []
     ) {
-        $this->formatMatcher = $formatMatcher;
-        $this->serializer = $serializer;
-        $this->resource = $resource;
-        $this->responseFactory = $responseFactory;
-        $this->serializeContext = $serializeContext;
     }
 
     private function initContext(ServerRequestInterface $request): array
@@ -142,12 +126,9 @@ class RestHandler implements RequestHandlerInterface
             ->withHeader('Content-Type', $context['contentType']);
     }
 
-    /**
-     * @param mixed  $result
-     */
     private function createResponse(
         array $action,
-        $result,
+        mixed $result,
         string $format,
         array $context
     ): ResponseInterface {
@@ -158,7 +139,7 @@ class RestHandler implements RequestHandlerInterface
             $data = $this->serializer->serialize(
                 $result,
                 $format,
-                $context + $this->serializeContext
+                $context + $this->serializationContext
             );
             $response->getBody()->write($data);
         }

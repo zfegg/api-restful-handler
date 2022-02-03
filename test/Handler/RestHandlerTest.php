@@ -64,7 +64,10 @@ class RestHandlerTest extends AbstractTestCase
         /** @var RestHandler $handler */
         $handler = $this->container->get('demo.rest');
 
-        $request = (new ServerRequestFactory)->createServerRequest($method, $path);
+        $request = (new ServerRequestFactory)
+            ->createServerRequest($method, $path)
+            ->withParsedBody(['foo' => 123])
+        ;
 
         foreach ($attrs as $attr => $val) {
             $request = $request->withAttribute($attr, $val);
