@@ -10,17 +10,10 @@ use Zfegg\PsrMvc\Attribute\ParamResolverAttributeInterface;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class FromResource implements ParamResolverAttributeInterface
 {
-    public string $resource;
-    public string $identifier = 'id';
-    public array $context = [];
-
     public function __construct(
-        string $resource,
-        string $identifier = 'id',
-        array $context = []
+        public string $resource,
+        public string $identifier = 'id',
+        public array $context = []
     ) {
-        $this->context = $context;
-        $this->identifier = $identifier;
-        $this->resource = $resource;
     }
 }
