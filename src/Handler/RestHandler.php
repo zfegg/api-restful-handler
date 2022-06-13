@@ -33,7 +33,8 @@ class RestHandler implements RequestHandlerInterface
         private SerializerInterface $serializer,
         private ResourceInterface $resource,
         private ResponseFactoryInterface $responseFactory,
-        private array $serializationContext = []
+        private array $serializationContext = [],
+        private string $identifierName = self::IDENTIFIER_NAME,
     ) {
     }
 
@@ -54,7 +55,7 @@ class RestHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $id = $request->getAttribute(self::IDENTIFIER_NAME);
+        $id = $request->getAttribute($this->identifierName);
         $method = $request->getMethod();
         $data = $request->getParsedBody();
         $context = $this->initContext($request);
