@@ -19,7 +19,7 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
         'csv',
     ];
 
-    public static function setDefaultFormats(array $formats)
+    public static function setDefaultFormats(array $formats): void
     {
         self::$defaultFormats = $formats;
     }
