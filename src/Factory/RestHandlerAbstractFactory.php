@@ -54,7 +54,7 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
 
         return new RestHandler(
             $formatMatcher,
-            $container->get(SerializerInterface::class),
+            $container->get($config['serializer'] ?? SerializerInterface::class),
             $resource,
             $container->get(ResponseFactoryInterface::class),
             $config['serialization_context'] ?? [],
