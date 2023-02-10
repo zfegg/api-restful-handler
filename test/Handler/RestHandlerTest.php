@@ -7,10 +7,11 @@ namespace ZfeggTest\ApiRestfulHandler\Handler;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use Symfony\Component\Serializer\SerializerInterface;
-use Zfegg\ApiRestfulHandler\Handler\RestHandler;
-use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
+use Zfegg\ApiRestfulHandler\RestHandler;
+use Zfegg\ApiRestfulHandler\ResourceInterface;
 use Zfegg\PsrMvc\Exception\HttpException;
 use Zfegg\PsrMvc\FormatMatcher;
+use Zfegg\PsrMvc\Preparer\SerializationPreparer;
 use ZfeggTest\ApiRestfulHandler\AbstractTestCase;
 
 class RestHandlerTest extends AbstractTestCase
@@ -23,15 +24,10 @@ class RestHandlerTest extends AbstractTestCase
 
         $resource = $this->createMock(ResourceInterface::class);
         $resource->method('getList')->willReturn([]);
-        $responseFactory = new ResponseFactory();
 
-        $handler = new RestHandler(
-            new FormatMatcher(['json', 'csv']),
-            $serializer,
-            $resource,
-            $responseFactory,
-            []
-        );
+        $preparer = new SerializationPreparer(new FormatMatcher(), $serializer, new ResponseFactory());
+
+        $handler = new RestHandler($preparer, $resource);
 
         $request = (new ServerRequestFactory)->createServerRequest('GET', '/foo');
         $response = $handler->handle($request);

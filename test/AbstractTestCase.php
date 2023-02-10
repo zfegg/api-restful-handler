@@ -11,8 +11,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Zfegg\ApiRestfulHandler\Factory\RestHandlerAbstractFactory;
-use ZfeggTest\ApiRestfulHandler\Resource\DemoResource;
-use ZfeggTest\ApiRestfulHandler\Resource\NotAllowedResource;
 
 abstract class AbstractTestCase extends TestCase
 {

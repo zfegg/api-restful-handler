@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Zfegg\ApiRestfulHandler\ParamResolver;
+namespace Zfegg\ApiRestfulHandler\Mvc\ParamResolver;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,7 +21,7 @@ class ResourceResolver implements ParamResolverInterface
 
     public function resolve(object $attr, ReflectionParameter $parameter): callable
     {
-        /** @var \Zfegg\ApiRestfulHandler\Attribute\FromResource $attr */
+        /** @var \Zfegg\ApiRestfulHandler\Mvc\Attribute\FromResource $attr */
 
         /** @var \Zfegg\ApiRestfulHandler\Resource\ResourceInterface $resource */
         $resource = $this->container->get($attr->resource);

@@ -8,8 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zfegg\ApiRestfulHandler\Handler\RestHandler;
-use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
+use Zfegg\ApiRestfulHandler\RestHandler;
+use Zfegg\ApiRestfulHandler\ResourceInterface;
 use Zfegg\PsrMvc\Exception\NotFoundHttpException;
 
 class ResourceFindMiddleware implements MiddlewareInterface

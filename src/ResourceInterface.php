@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Zfegg\ApiRestfulHandler\Resource;
+namespace Zfegg\ApiRestfulHandler;
 
 interface ResourceInterface
 {

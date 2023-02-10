@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace ZfeggTest\ApiRestfulHandler\Resource;
+namespace ZfeggTest\ApiRestfulHandler;
 
-use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
-use Zfegg\ApiRestfulHandler\Resource\ResourceNotAllowedTrait;
+use Zfegg\ApiRestfulHandler\ResourceInterface;
+use Zfegg\ApiRestfulHandler\ResourceNotAllowedTrait;
 
 class NotAllowedResource implements ResourceInterface
 {

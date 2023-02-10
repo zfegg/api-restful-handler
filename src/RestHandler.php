@@ -2,19 +2,15 @@
 
 declare(strict_types = 1);
 
-namespace Zfegg\ApiRestfulHandler\Handler;
+namespace Zfegg\ApiRestfulHandler;
 
-use Fig\Http\Message\StatusCodeInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
 use Zfegg\PsrMvc\Exception\HttpException;
-use Zfegg\PsrMvc\Exception\NotAcceptableHttpException;
 use Zfegg\PsrMvc\Exception\NotFoundHttpException;
-use Zfegg\PsrMvc\FormatMatcher;
+use Zfegg\PsrMvc\Preparer\ResultPreparableInterface;
 
 class RestHandler implements RequestHandlerInterface
 {
@@ -23,16 +19,9 @@ class RestHandler implements RequestHandlerInterface
      */
     const IDENTIFIER_NAME = 'id';
 
-    public const ACTION_TO_CODE = [
-        'create' => StatusCodeInterface::STATUS_CREATED,
-        'delete' => StatusCodeInterface::STATUS_NO_CONTENT,
-    ];
-
     public function __construct(
-        private FormatMatcher $formatMatcher,
-        private SerializerInterface $serializer,
+        private ResultPreparableInterface $resultPreparer,
         private ResourceInterface $resource,
-        private ResponseFactoryInterface $responseFactory,
         private array $serializationContext = [],
         private string $identifierName = self::IDENTIFIER_NAME,
     ) {
@@ -42,10 +31,6 @@ class RestHandler implements RequestHandlerInterface
     {
         $context = $request->getAttributes();
         $context['query'] = $request->getQueryParams();
-        $context['format'] = $request->getAttribute('format')
-            ?: $this->formatMatcher->getBestFormat($request)
-            ?: $this->formatMatcher->getDefaultFormat();
-        $context['contentType'] = $this->formatMatcher->getFormat($context['format'])['mime-type'][0];
 
         return $context;
     }
@@ -89,16 +74,6 @@ class RestHandler implements RequestHandlerInterface
             );
         }
 
-        $format = $context['format'];
-        if (! $format) {
-            throw new NotAcceptableHttpException(
-                sprintf(
-                    'Requested format "%s" is not supported.',
-                    $request->getHeaderLine('accept'),
-                ),
-            );
-        }
-
         $action = $actions[$type][$method];
 
         if (in_array($action[0], ['get', 'patch', 'update', 'delete'])) {
@@ -123,28 +98,6 @@ class RestHandler implements RequestHandlerInterface
             $result = call_user_func_array([$this->resource, $action[0]], array_values($action[1]));
         }
 
-        return $this->createResponse($action, $result, $format, $context)
-            ->withHeader('Content-Type', $context['contentType']);
-    }
-
-    private function createResponse(
-        array $action,
-        mixed $result,
-        string $format,
-        array $context
-    ): ResponseInterface {
-
-        $response = $this->responseFactory->createResponse(self::ACTION_TO_CODE[$action[0]] ?? 200);
-
-        if ($result !== null) {
-            $data = $this->serializer->serialize(
-                $result,
-                $format,
-                $context + $this->serializationContext
-            );
-            $response->getBody()->write($data);
-        }
-
-        return $response;
+        return $this->resultPreparer->prepare($request, $result, $context + $this->serializationContext);
     }
 }

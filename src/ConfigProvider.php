@@ -4,9 +4,10 @@ declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler;
 
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-use Zfegg\ApiRestfulHandler\Attribute\FromResource;
+use Zfegg\ApiRestfulHandler\Mvc\Attribute\FromResource;
 use Zfegg\PsrMvc\ParamResolver\ParamResolverManager;
 
 class ConfigProvider
@@ -23,6 +24,7 @@ class ConfigProvider
                 ],
                 'aliases' => [
                     SerializerInterface::class => Serializer::class,
+                    NormalizerInterface::class => Serializer::class,
                 ]
             ],
             ParamResolverManager::class => [

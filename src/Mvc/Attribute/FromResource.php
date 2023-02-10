@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Zfegg\ApiRestfulHandler\Attribute;
+namespace Zfegg\ApiRestfulHandler\Mvc\Attribute;
 
 use Attribute;
 use Zfegg\PsrMvc\Attribute\ParamResolverAttributeInterface;

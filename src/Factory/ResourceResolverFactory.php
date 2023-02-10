@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Zfegg\ApiRestfulHandler\Factory;
 
 use Psr\Container\ContainerInterface;
-use Zfegg\ApiRestfulHandler\ParamResolver\ResourceResolver;
+use Zfegg\ApiRestfulHandler\Mvc\ParamResolver\ResourceResolver;
 
 class ResourceResolverFactory
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace ZfeggTest\ApiRestfulHandler\ParamResolver;
+namespace ZfeggTest\ApiRestfulHandler\Mvc\ParamResolver;
 
-use Zfegg\ApiRestfulHandler\Attribute\FromResource;
+use Zfegg\ApiRestfulHandler\Mvc\Attribute\FromResource;
 use Zfegg\ExpressiveTest\MockRequestFactory;
 use Zfegg\PsrMvc\CallbackHandlerFactory;
 use ZfeggTest\ApiRestfulHandler\AbstractTestCase;
-use ZfeggTest\ApiRestfulHandler\Resource\DemoResource;
+use ZfeggTest\ApiRestfulHandler\DemoResource;
 
 class ResourceResolverTest extends AbstractTestCase
 {
