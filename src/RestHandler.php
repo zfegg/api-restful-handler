@@ -7,7 +7,6 @@ namespace Zfegg\ApiRestfulHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zfegg\ApiRestfulHandler\Resource\ResourceInterface;
 use Zfegg\PsrMvc\Exception\HttpException;
 use Zfegg\PsrMvc\Exception\NotFoundHttpException;
 use Zfegg\PsrMvc\Preparer\ResultPreparableInterface;

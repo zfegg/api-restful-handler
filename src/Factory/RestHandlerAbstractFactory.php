@@ -36,7 +36,7 @@ class RestHandlerAbstractFactory implements AbstractFactoryInterface
         return new RestHandler(
             $container->get($config['preparer'] ?? ResultPreparableInterface::class),
             $resource,
-            $config['serialization_context'] ?? [],
+            $config['options'] ?? $config['serialization_context'] ?? [],
             $config['identifier_name'] ?? RestHandler::IDENTIFIER_NAME,
         );
     }
