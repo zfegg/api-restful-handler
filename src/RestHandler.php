@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,6 +18,11 @@ class RestHandler implements RequestHandlerInterface
      * Request 中唯ID标识名称
      */
     const IDENTIFIER_NAME = 'id';
+
+    public const ACTION_TO_CODE = [
+        'create' => StatusCodeInterface::STATUS_CREATED,
+        'delete' => StatusCodeInterface::STATUS_NO_CONTENT,
+    ];
 
     public function __construct(
         private ResultPreparableInterface $resultPreparer,
@@ -95,6 +101,9 @@ class RestHandler implements RequestHandlerInterface
         } else {
             $action[1][] = $context;
             $result = call_user_func_array([$this->resource, $action[0]], array_values($action[1]));
+        }
+        if (isset(self::ACTION_TO_CODE[$action[0]])) {
+            $context['status'] = self::ACTION_TO_CODE[$action[0]];
         }
 
         return $this->resultPreparer->prepare($request, $result, $context + $this->serializationContext);
