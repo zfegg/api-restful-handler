@@ -13,7 +13,8 @@ class FromResource implements ParamResolverAttributeInterface
     public function __construct(
         public string $resource,
         public string $identifier = 'id',
-        public array $context = []
+        public array $context = [],
+        public bool $nullable = false,
     ) {
     }
 }

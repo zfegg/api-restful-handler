@@ -7,6 +7,7 @@ namespace Zfegg\ApiRestfulHandler\Mvc\ParamResolver;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionParameter;
+use Zfegg\PsrMvc\Exception\NotFoundHttpException;
 use Zfegg\PsrMvc\ParamResolver\ParamResolverInterface;
 
 class ResourceResolver implements ParamResolverInterface
@@ -23,10 +24,18 @@ class ResourceResolver implements ParamResolverInterface
     {
         /** @var \Zfegg\ApiRestfulHandler\Mvc\Attribute\FromResource $attr */
 
-        /** @var \Zfegg\ApiRestfulHandler\Resource\ResourceInterface $resource */
+        /** @var \Zfegg\ApiRestfulHandler\ResourceInterface $resource */
         $resource = $this->container->get($attr->resource);
 
-        return static fn(ServerRequestInterface $request)
-            => $resource->get($request->getAttribute($attr->identifier), $attr->context);
+        return static function (ServerRequestInterface $request) use ($resource, $attr) {
+            $entity = $resource->get(
+                $request->getAttribute($attr->identifier),
+                $attr->context + $request->getAttributes()
+            );
+            if (! $entity && ! $attr->nullable) {
+                throw new NotFoundHttpException("Entity not found");
+            }
+            return $entity;
+        };
     }
 }
