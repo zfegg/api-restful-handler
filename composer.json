@@ -14,7 +14,7 @@
     "psr/http-server-handler": "^1.0",
     "symfony/serializer": "^5.2 | ^6.0",
     "psr/http-factory": "^1.0",
-    "zfegg/psr-mvc": "^2.0",
+    "zfegg/psr-mvc": "^3.0",
     "fig/http-message-util": "^1.1",
     "willdurand/negotiation": "^3.1"
   },
