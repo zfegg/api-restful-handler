@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Zfegg\ApiRestfulHandler\Factory;
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
+use Psr\Container\ContainerInterface;
 use Zfegg\ApiRestfulHandler\RestHandler;
 use Zfegg\PsrMvc\Preparer\ResultPreparableInterface;
 
