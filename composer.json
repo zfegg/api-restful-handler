@@ -21,6 +21,9 @@
   "autoload": {
     "psr-4": {
       "Zfegg\\ApiRestfulHandler\\": "src/"
+    },
+    "branch-alias": {
+      "dev-master": "0.4.x-dev"
     }
   },
   "autoload-dev": {
