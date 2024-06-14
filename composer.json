@@ -21,9 +21,6 @@
   "autoload": {
     "psr-4": {
       "Zfegg\\ApiRestfulHandler\\": "src/"
-    },
-    "branch-alias": {
-      "dev-master": "0.4.x-dev"
     }
   },
   "autoload-dev": {
@@ -34,6 +31,9 @@
   "extra": {
     "laminas": {
       "config-provider": "Zfegg\\ApiRestfulHandler\\ConfigProvider"
+    },
+    "branch-alias": {
+      "dev-master": "0.4.x-dev"
     }
   },
   "require-dev": {
