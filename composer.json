@@ -12,9 +12,9 @@
   "require": {
     "php": ">=8.0",
     "psr/http-server-handler": "^1.0",
-    "symfony/serializer": "^5.2 | ^6.0",
+    "symfony/serializer": "^5.2 | ^6.0 | ^7.0",
     "psr/http-factory": "^1.0",
-    "zfegg/psr-mvc": "^3.0",
+    "zfegg/psr-mvc": "^3.1",
     "fig/http-message-util": "^1.1",
     "willdurand/negotiation": "^3.1"
   },
@@ -38,10 +38,12 @@
   },
   "require-dev": {
     "mezzio/mezzio-problem-details": "^1.4",
-    "laminas/laminas-servicemanager": "^3.10",
-    "laminas/laminas-diactoros": "^2.8",
-    "zfegg/expressive-test": "^0.6.1",
-    "slevomat/coding-standard": "^7.0"
+    "laminas/laminas-servicemanager": "^3.22",
+    "laminas/laminas-diactoros": "^3.0",
+    "zfegg/expressive-test": "^0.7.1",
+    "slevomat/coding-standard": "^8.0",
+    "laminas/laminas-di": "^3.14",
+    "phpunit/phpunit": "^10.0"
   },
   "scripts": {
     "cs-check": "phpcs -s",
@@ -53,6 +55,5 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
-  },
-  "repositories": [{"type": "github", "url": "https://github.com/zfegg/psr-mvc", "only": ["zfegg/psr-mvc"]}]
+  }
 }

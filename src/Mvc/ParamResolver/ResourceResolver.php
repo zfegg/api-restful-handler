@@ -25,7 +25,7 @@ class ResourceResolver implements ParamResolverInterface
         /** @var \Zfegg\ApiRestfulHandler\Mvc\Attribute\FromResource $attr */
 
         /** @var \Zfegg\ApiRestfulHandler\ResourceInterface $resource */
-        $resource = $this->container->get($attr->resource);
+        $resource = $this->container->get($attr->resource ?: $parameter->getType()->getName());
 
         return static function (ServerRequestInterface $request) use ($resource, $attr) {
             $entity = $resource->get(

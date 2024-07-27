@@ -36,7 +36,7 @@ class RestHandlerTest extends AbstractTestCase
         $this->assertEquals('{}', (string) $response->getBody());
     }
 
-    public function rest(): array
+    public static function rest(): array
     {
         return [
             ['GET', '/tests',],

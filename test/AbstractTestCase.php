@@ -45,6 +45,7 @@ abstract class AbstractTestCase extends TestCase
         $config = ArrayUtils::merge($config, (new \Zfegg\PsrMvc\ConfigProvider())());
         $config = ArrayUtils::merge($config, (new \Zfegg\ApiRestfulHandler\ConfigProvider())());
         $config = ArrayUtils::merge($config, (new \Laminas\Diactoros\ConfigProvider())());
+        $config = ArrayUtils::merge($config, (new \Laminas\Di\ConfigProvider())());
         $container->configure($config['dependencies']);
         $container->addAbstractFactory(RestHandlerAbstractFactory::class);
         $container->setService('config', $config);

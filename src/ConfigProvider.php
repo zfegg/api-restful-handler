@@ -25,13 +25,22 @@ class ConfigProvider
                 'aliases' => [
                     SerializerInterface::class => Serializer::class,
                     NormalizerInterface::class => Serializer::class,
-                ]
+                ],
+
+                'auto' => [
+                    'types' => [
+                        ParamResolverManager::class => [
+                            'parameters' => [
+                                'config' => [
+                                    'factories' => [
+                                        FromResource::class => Factory\ResourceResolverFactory::class,
+                                    ],
+                                ]
+                            ]
+                        ],
+                    ]
+                ],
             ],
-            ParamResolverManager::class => [
-                'factories' => [
-                    FromResource::class => Factory\ResourceResolverFactory::class,
-                ]
-            ]
         ];
     }
 }
